@@ -63,10 +63,10 @@ class Paddle:
             self.x = 0
 
     def turn_left(self, evt):
-        self.x = -2
+        self.x = -3
 
     def turn_right(self, evt):
-        self.x = 2
+        self.x = 3
 
 tk = Tk()
 tk.title("My Games")
@@ -83,4 +83,4 @@ while True:
         paddle.draw()
     tk.update_idletasks()
     tk.update()
-    time.sleep(0.03)
+    time.sleep(0.02)
