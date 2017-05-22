@@ -25,7 +25,7 @@ class Game:
 
     def mainloop(self):
         while True:
-            if self.running == True:
+            if self.running is True:
                 for sprite in self.sprites:
                     sprite.move()
             self.tk.update_idletasks()
