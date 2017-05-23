@@ -115,12 +115,14 @@ class StickFigureSprite(Sprite):
         self.images_left = [
             PhotoImage(file="./img/Figure-L1.gif"),
             PhotoImage(file="./img/Figure-L2.gif"),
-            PhotoImage(file="./img/Figure-L3.gif")
+            PhotoImage(file="./img/Figure-L3.gif"),
+            PhotoImage(file="./img/Figure-L4.gif")
         ]
         self.images_right = [
             PhotoImage(file="./img/Figure-R1.gif"),
             PhotoImage(file="./img/Figure-R2.gif"),
-            PhotoImage(file="./img/Figure-R3.gif")
+            PhotoImage(file="./img/Figure-R3.gif"),
+            PhotoImage(file="./img/Figure-R4.gif")
         ]
         self.image = game.canvas.create_image(200, 470, image=self.images_left[0], anchor='nw')
         self.x = -2
@@ -146,6 +148,16 @@ class StickFigureSprite(Sprite):
         if self.y == 0:
             self.y = -4
             self.jump_count = 0
+
+    def animate(self):
+        if self.x != 0 and self.y == 0:
+            if time.time() - self.last_time > 0.1:
+                self.last_time = time.time()
+                self.current_image += self.current_image_add
+                if self.current_image >= 3:
+                    self.current_image_add = -1
+                if self.current_image <= 0:
+                    self.current_image_add = 1
 
 g = Game()
 platform1 = PlatformSprite(g, PhotoImage(file="./img/Platform1.gif"), 100, 280, 32, 10)
