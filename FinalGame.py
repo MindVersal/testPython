@@ -231,6 +231,16 @@ class StickFigureSprite(Sprite):
             self.y = 4
         self.game.canvas.move(self.image, self.x, self.y)
 
+
+class DoorSprite(Sprite):
+    def __init__(self, game, photo_image, x, y, width, height):
+        Sprite.__init__(self, game)
+        self.photo_image = photo_image
+        self.image = game.canvas.create_image(x, y, image=self.photo_image, anchor='nw')
+        self.coordinates = Coords(x, y, x + (width / 2.0), y + height)
+        self.endgame = True
+
+
 g = Game()
 platform1 = PlatformSprite(g, PhotoImage(file="./img/Platform1.gif"), 200, 280, 32, 10)
 platform2 = PlatformSprite(g, PhotoImage(file="./img/Platform2.gif"), 100, 400, 66, 10)
