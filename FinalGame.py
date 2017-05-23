@@ -223,9 +223,13 @@ class StickFigureSprite(Sprite):
             if left and (self.x < 0) and sprite_co.collided_left(co, sprite_co):
                 self.x = 0
                 left = False
+                if sprite.endgame:
+                    self.game.running = False
             if right and (self.x > 0) and sprite_co.collided_right(co, sprite_co):
                 self.x = 0
                 right = False
+                if sprite.endgame:
+                    self.game.running = False
         if falling and bottom and (self.y == 0) \
                 and (co.y2 < self.game.canvas_height):
             self.y = 4
@@ -241,11 +245,14 @@ class DoorSprite(Sprite):
         self.endgame = True
 
 
+
 g = Game()
 platform1 = PlatformSprite(g, PhotoImage(file="./img/Platform1.gif"), 200, 280, 32, 10)
 platform2 = PlatformSprite(g, PhotoImage(file="./img/Platform2.gif"), 100, 400, 66, 10)
 platform3 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 0, 480, 100, 10)
 g.sprites.append(platform1)
+door = DoorSprite(g, PhotoImage(file="./img/Door1.gif"), 45, 30, 40, 35)
+g.sprites.append(door)
 sf = StickFigureSprite(g)
 g.sprites.append(sf)
 g.mainloop()
