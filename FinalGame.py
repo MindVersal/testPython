@@ -58,5 +58,35 @@ class Coords:
         else:
             return False
 
+    def collided_left(self, co1, co2):
+        if self.within_y(co1, co2):
+            if (co1.x1 <= co2.x2) and (co1.x1 >= co2.x1):
+                return True
+        else:
+            return False
+
+    def collided_right(self, co1, co2):
+        if self.within_y(co1, co2):
+            if (co1.x2 >= co2.x1) and (co1.x2 <= co2.x2):
+                return True
+        else:
+            return False
+
+    def collided_top(self, co1, co2):
+        if self.within_x(co1, co2):
+            if (co1.y1 <= co2.y2) and (co1.y1 >= co2.y1):
+                return True
+        else:
+            return False
+
+    def collided_bottom(self, y, co1, co2):
+        if self.within_x(co1, co2):
+            y_calc = co2.y2 + y
+            if (y_calc >= co2.y1) and (y_calc <= co2.y2):
+                return True
+        else:
+            return False
+
+
 g = Game()
 g.mainloop()
