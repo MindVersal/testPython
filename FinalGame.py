@@ -40,50 +40,54 @@ class Coords:
         self.x2 = x2
         self.y2 = y2
 
-    def within_x(self, co1, co2):
-        if ((co1.x1 > co2.x1) and (co1.x1 < co2.x2)) \
-                or ((co1.x2 > co2.x1) and (co1.x2 < co2.x2)) \
-                or ((co2.x1 > co1.x1) and (co2.x1 < co1.x2)) \
-                or ((co2.x2 > co1.x1) and (co2.x2 < co1.x2)):
-            return True
-        else:
-            return False
 
-    def within_y(self, co1, co2):
-        if ((co1.y1 > co2.y1) and (co1.y1 < co2.y2)) \
-                or ((co1.y2 > co2.y1) and (co1.y2 < co2.y2)) \
-                or ((co2.y1 > co1.y1) and (co2.y1 < co1.y2)) \
-                or ((co2.y2 > co1.y1) and (co2.y2 < co1.y2)):
-            return True
-        else:
-            return False
-
-    def collided_left(self, co1, co2):
-        if self.within_y(co1, co2):
-            if (co1.x1 <= co2.x2) and (co1.x1 >= co2.x1):
-                return True
-        else:
-            return False
-
-    def collided_right(self, co1, co2):
-        if self.within_y(co1, co2):
-            if (co1.x2 >= co2.x1) and (co1.x2 <= co2.x2):
-                return True
-        else:
-            return False
-
-    def collided_top(self, co1, co2):
-        if self.within_x(co1, co2):
-            if (co1.y1 <= co2.y2) and (co1.y1 >= co2.y1):
-                return True
+def within_x(co1, co2):
+    if ((co1.x1 > co2.x1) and (co1.x1 < co2.x2)) \
+            or ((co1.x2 > co2.x1) and (co1.x2 < co2.x2)) \
+            or ((co2.x1 > co1.x1) and (co2.x1 < co1.x2)) \
+            or ((co2.x2 > co1.x1) and (co2.x2 < co1.x2)):
+        return True
+    else:
         return False
 
-    def collided_bottom(self, y, co1, co2):
-        if self.within_x(co1, co2):
-            y_calc = co2.y2 + y
-            if (y_calc >= co2.y1) and (y_calc <= co2.y2):
-                return True
+
+def within_y(co1, co2):
+    if ((co1.y1 > co2.y1) and (co1.y1 < co2.y2)) \
+            or ((co1.y2 > co2.y1) and (co1.y2 < co2.y2)) \
+            or ((co2.y1 > co1.y1) and (co2.y1 < co1.y2)) \
+            or ((co2.y2 > co1.y1) and (co2.y2 < co1.y2)):
+        return True
+    else:
         return False
+
+
+def collided_left(co1, co2):
+    if within_y(co1, co2):
+        if (co1.x1 <= co2.x2) and (co1.x1 >= co2.x1):
+            return True
+    return False
+
+
+def collided_right(co1, co2):
+    if within_y(co1, co2):
+        if (co1.x2 >= co2.x1) and (co1.x2 <= co2.x2):
+            return True
+    return False
+
+
+def collided_top(co1, co2):
+    if within_x(co1, co2):
+        if (co1.y1 <= co2.y2) and (co1.y1 >= co2.y1):
+            return True
+    return False
+
+
+def collided_bottom(y, co1, co2):
+    if within_x(co1, co2):
+        y_calc = co1.y2 + y
+        if (y_calc >= co2.y1) and (y_calc <= co2.y2):
+            return True
+    return False
 
 
 class Sprite:
@@ -122,7 +126,7 @@ class StickFigureSprite(Sprite):
             PhotoImage(file="./img/Figure-R3.gif"),
             PhotoImage(file="./img/Figure-R4.gif")
         ]
-        self.image = game.canvas.create_image(200, 420, image=self.images_left[1], anchor='nw')
+        self.image = game.canvas.create_image(400, 420, image=self.images_left[1], anchor='nw')
         self.x = -2
         self.y = 0
         self.current_image = 0
@@ -205,10 +209,10 @@ class StickFigureSprite(Sprite):
             if sprite == self:
                 continue
             sprite_co = sprite.coords()
-            if top and (self.y < 0) and sprite_co.collided_top(co, sprite_co):
+            if top and (self.y < 0) and collided_top(co, sprite_co):
                 self.y = -self.y
                 top = False
-            if bottom and (self.y > 0) and sprite_co.collided_bottom(self.y, co, sprite_co):
+            if bottom and (self.y > 0) and collided_bottom(self.y, co, sprite_co):
                 self.y = sprite_co.y1 - co.y2
                 if self.y < 0:
                     self.y = 0
@@ -216,14 +220,14 @@ class StickFigureSprite(Sprite):
                 top = False
             if bottom and falling and (self.y == 0) \
                     and (co.y2 < self.game.canvas_height) \
-                    and sprite_co.collided_bottom(1, co, sprite_co):
+                    and collided_bottom(1, co, sprite_co):
                 falling = False
-            if left and (self.x < 0) and sprite_co.collided_left(co, sprite_co):
+            if left and (self.x < 0) and collided_left(co, sprite_co):
                 self.x = 0
                 left = False
                 if sprite.endgame:
                     self.game.running = False
-            if right and (self.x > 0) and sprite_co.collided_right(co, sprite_co):
+            if right and (self.x > 0) and collided_right(co, sprite_co):
                 self.x = 0
                 right = False
                 if sprite.endgame:
@@ -244,8 +248,8 @@ class DoorSprite(Sprite):
 
 g = Game()
 platform1 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 0, 480, 100, 10)
-platform2 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 150, 440, 100, 10)
-platform3 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 300, 400, 100, 10)
+platform2 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 150, 400, 100, 10)
+platform3 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 350, 400, 100, 10)
 platform4 = PlatformSprite(g, PhotoImage(file="./img/Platform3.gif"), 300, 160, 100, 10)
 platform5 = PlatformSprite(g, PhotoImage(file="./img/Platform2.gif"), 175, 350, 66, 10)
 platform6 = PlatformSprite(g, PhotoImage(file="./img/Platform2.gif"), 50, 300, 66, 10)
