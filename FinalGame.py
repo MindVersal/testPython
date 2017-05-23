@@ -127,7 +127,7 @@ class StickFigureSprite(Sprite):
             PhotoImage(file="./img/Figure-R4.gif")
         ]
         self.image = game.canvas.create_image(400, 420, image=self.images_left[1], anchor='nw')
-        self.x = -2
+        self.x = -1
         self.y = 0
         self.current_image = 0
         self.current_image_add = 1
@@ -140,11 +140,11 @@ class StickFigureSprite(Sprite):
 
     def turn_left(self, evt):
         if self.y == 0:
-            self.x = -2
+            self.x = -1
 
     def turn_right(self, evt):
         if self.y == 0:
-            self.x = 2
+            self.x = 1
 
     def jump(self, evt):
         if self.y == 0:
@@ -184,7 +184,7 @@ class StickFigureSprite(Sprite):
         if self.y < 0:
             self.jump_count += 1
             if self.jump_count > 30:
-                self.y = 4
+                self.y = 2
         if self.y > 0:
             self.jump_count -= 1
         co = self.coords()
@@ -234,7 +234,7 @@ class StickFigureSprite(Sprite):
                     self.game.running = False
         if falling and bottom and (self.y == 0) \
                 and (co.y2 < self.game.canvas_height):
-            self.y = 4
+            self.y = 2
         self.game.canvas.move(self.image, self.x, self.y)
 
 
@@ -268,7 +268,7 @@ g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
 g.sprites.append(platform1)
-door = DoorSprite(g, PhotoImage(file="./img/Door1.gif"), 45, 30, 40, 35)
+door = DoorSprite(g, PhotoImage(file="./img/Door1.gif"), 400, 350, 40, 35)
 g.sprites.append(door)
 sf = StickFigureSprite(g)
 g.sprites.append(sf)
