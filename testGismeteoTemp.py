@@ -1,12 +1,10 @@
-import bs4
-import requests
+from grab import Grab
 
-url_name = 'https://www.youtube.com'
-res = requests.get(url_name)
-res.raise_for_status()
-no_start_soup = bs4.BeautifulSoup(res.text, "html.parser")
-elems = no_start_soup.select('.yt-ui-ellipsis a')
-print('Популярные видео на сайте youtube.com\n')
-for elem in elems:
-    print(elem.getText() + ":\n" + url_name + str(elem["href"]))
+url_name = 'http://www.gismeteo.ru/weather-cherepovets-4285/now/'
+g = Grab()
+g.go(url_name)
+print(g.doc.rex_text('<title>([^>]+)' + u'сейчас') + ':')
+print(g.doc.rex_text('<span class=\"nowvalue__sign\">([^<]+)</span>') +
+      g.doc.rex_text('<span class=\"nowvalue__sign\">[^<]*</span>([^<]+)<span') +
+      g.doc.rex_text('<span class=\"nowvalue__text_m\">([^<]+)</span>'))
 print('\n\nTHE END.')
