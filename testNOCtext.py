@@ -27,7 +27,7 @@ print('\nПортов на 1T3:', end='')
 name_ats = ['31', '26']
 for ats in name_ats:
     print('\nАТС ' + str(ats) + ':')
-    print('Монтировано:', end='')
+    print('Монтировано: ', end='')
     print(g.doc.rex_search(r'8202' + str(ats) + r'(.|\n|\r|\s)*?1T3(.|\n|\r|\s)*?GPON(.|\n|\r|\s)*?' +
                            r'summary(.*\n*){2}\s+\d+\(([^<]+)\)\s+').group(5))
     print('Активно: ', end='')

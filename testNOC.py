@@ -12,6 +12,6 @@ g.doc.set_input('password', password)
 g.doc.submit()
 resp = g.go(url_name_report)
 resp.charset = 'cp1251'
-open('./temp_report.html', 'w').write(resp.unicode_body())
+open('./temp/temp_report.html', 'w').write(resp.unicode_body())
 
 print('\n\nTHE END.')
