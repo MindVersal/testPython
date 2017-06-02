@@ -2,7 +2,7 @@ from grab import Grab
 
 print('Grab text from temp_report.html')
 g = Grab()
-url_name = 'file://temp_report.html'
+url_name = 'file://temp/temp_report.html'
 resp = g.go(url_name, charset='cp1251')
 print('\nИтого портов:')
 print('GPON:')
