@@ -18,7 +18,6 @@ ws['B1'] = 'Монтировано портов'
 ws['C1'] = 'Активных портов'
 ws['D1'] = 'Задействовано портов'
 ws['E1'] = 'Свободно портов'
-
 temp_row.append('ADSL2+:')
 temp_row.append(g.doc.rex_search(r'Итого(.|\n|\r|\s)*?ADSL2\+\s+(.+\n){1}.+\s+([^<]+)\s+').group(3))
 temp_row.append(g.doc.rex_search(r'Итого(.|\n|\r|\s)*?ADSL2\+\s+(.+\n){3}.+\s+([^<]+)\s+').group(3))
@@ -135,4 +134,4 @@ ws.column_dimensions['E'].width = 17
 month_year = datetime.datetime.now().strftime('%d%m%y')
 wb.save('temp/report_' + month_year + '.xlsx')
 
-print('\n\nTHE END.')
+print('\nTHE END.')
