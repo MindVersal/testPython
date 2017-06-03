@@ -13,6 +13,32 @@ ws = wb.active
 rows = []
 
 
+def grad_noc():
+    """
+    Login to NOC
+    Password asking from console in manual mode
+    Response report and save request to file
+
+    :return:
+    """
+    url_name_login = 'http://10.166.0.27/db/index.php'
+    url_name_report = 'http://10.166.0.27/db/index.php?a=repAdmin&c=sendForm&r=equipInventory&id_pop=3533&id_equip_type=&id_port_type='
+    g = Grab(timeout=100, connect_timeout=30)
+    g.go(url_name_login)
+    g.doc.set_input('login', 'pia@ex.tchercom.ru')
+    print('Insert password:')
+    password = input()
+    g.doc.set_input('password', password)
+    g.doc.submit()
+    print('Logging to Noc is finished')
+    print('Please wait about a minute for request NOC ...')
+    resp = g.go(url_name_report)
+    resp.charset = 'cp1251'
+    print('Saving respond.')
+    open('./temp/temp_report.html', 'w').write(resp.unicode_body())
+    print('Grabbing report from NOC have finished')
+
+
 def grab_data():
     """
     Procedure for grabbing data from html report and preparing data for excel.
@@ -179,6 +205,7 @@ def save_data():
     wb.save('temp/report_' + month_year + '.xlsx')
     print('Saving data have finished.')
 
+grad_noc()
 grab_data()
 convert_data()
 design_data()
