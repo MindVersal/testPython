@@ -35,7 +35,7 @@ def grad_noc():
     resp = g.go(url_name_report)
     resp.charset = 'cp1251'
     print('Saving respond.')
-    open('./temp/temp_report.html', 'w').write(resp.unicode_body())
+    open('./temp_report.html', 'w').write(resp.unicode_body())
     print('Grabbing report from NOC have finished')
 
 
@@ -64,7 +64,7 @@ def grab_data():
     :return:
     """
     g = Grab()
-    url_name = r'file://temp\temp_report.html'
+    url_name = r'file://temp_report.html'
     g.go(url_name, charset='cp1251')
     # temp_row = ['A#', 'B#', 'C#', 'D#', 'E#']
     temp_row_blank = ['', '', '', '', '']
@@ -202,7 +202,7 @@ def save_data():
     :return:
     """
     month_year = datetime.datetime.now().strftime('%d%m%y')
-    wb.save('temp/report_' + month_year + '.xlsx')
+    wb.save('report_' + month_year + '.xlsx')
     print('Saving data have finished.')
 
 grad_noc()
