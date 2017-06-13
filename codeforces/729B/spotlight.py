@@ -116,9 +116,22 @@ def count_best_positions():
 
 
 input_array = []
-with open('./input.txt') as file:
-    count_rows = int(file.readline().split()[0])
-    for number_row in range(count_rows):
-        input_array.append([int(cell) for cell in file.readline().split()])
-with open('./output.txt', 'w') as file:
-    file.write(str(count_best_positions()))
+
+# file = open('./input.txt')
+# temp_array_string = file.readline().split()
+temp_array_string = input().split()
+count_rows = int(temp_array_string[0])  # i == n
+count_cols = int(temp_array_string[1])  # j == m
+for row in range(count_rows):
+    # temp_array_string = [int(cell) for cell in file.readline().split()]
+    temp_array_string = [int(cell) for cell in input().split()]
+    temp_row = []
+    for col in range(count_cols):
+        temp_row.append(temp_array_string[col])
+    input_array.append(temp_row)
+
+print(count_best_positions())
+
+# file.close()
+
+print()
