@@ -75,7 +75,6 @@ B. Прожекторы
 
 Таким образом, в данном примере всего 9 хороших позиций.
 """
-print('Test first example.')
 
 
 def count_neighbors(row, col):
@@ -117,17 +116,9 @@ def count_best_positions():
 
 
 input_array = []
-with open('./example_1.txt') as file:
+with open('./input.txt') as file:
     count_rows = int(file.readline().split()[0])
     for number_row in range(count_rows):
         input_array.append([int(cell) for cell in file.readline().split()])
-
-print('Count best positions on first example = %s' % (count_best_positions()))
-input_array = []
-with open('./example_2.txt') as file:
-    count_rows = int(file.readline().split()[0])
-    for number_row in range(count_rows):
-        input_array.append([int(cell) for cell in file.readline().split()])
-print('Count best positions on second example = %s' % (count_best_positions()))
-
-print('THE END.')
+with open('./output.txt', 'w') as file:
+    file.write(str(count_best_positions()))
