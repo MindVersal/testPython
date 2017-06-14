@@ -76,7 +76,7 @@ B. Прожекторы
 Таким образом, в данном примере всего 9 хороших позиций.
 """
 import random
-# import time
+import time
 
 
 def print_arrary(temp_array):
@@ -127,34 +127,33 @@ def count_best_positions():
     return result
 
 
-input_array = []
-# file = open('./input.txt')
-# temp_array_string = file.readline().split()
-temp_array_string = input().split()
-count_rows = int(temp_array_string[0])  # i == n
-count_cols = int(temp_array_string[1])  # j == m
-for row in range(count_rows):
-    # temp_array_string = [int(cell) for cell in file.readline().split()]
-    temp_array_string = [int(cell) for cell in input().split()]
-    temp_row = []
-    for col in range(count_cols):
-        temp_row.append(temp_array_string[col])
-    input_array.append(temp_row)
-print(count_best_positions())
-# print('Generation array.')
 # input_array = []
-# count_rows = 1000
-# count_cols = 1
-# for i in range(count_rows):
-#     input_array.append([])
-#     for j in range(count_cols):
-#         input_array[i].append(random.randint(0, 0))
-# input_array[999][0] = 1
-# print('Array is Generated.')
-# start_time = time.time()
-# print(count_best_positions())
-# end_time = time.time()
-# print('Time = %s ms' % ((end_time - start_time) * 1000))
+# # file = open('./input.txt')
+# # temp_array_string = file.readline().split()
+# temp_array_string = input().split()
+# count_rows = int(temp_array_string[0])  # i == n
+# count_cols = int(temp_array_string[1])  # j == m
+# for row in range(count_rows):
+#     # temp_array_string = [int(cell) for cell in file.readline().split()]
+#     temp_array_string = [int(cell) for cell in input().split()]
+#     temp_row = []
+#     for col in range(count_cols):
+#         temp_row.append(temp_array_string[col])
+#     input_array.append(temp_row)
 # file.close()
+# print(count_best_positions())
+input_array = []
+count_rows = 1000
+count_cols = 1000
+for i in range(count_rows):
+    input_array.append([])
+    for j in range(count_cols):
+        input_array[i].append(random.randint(1, 1))
+input_array[999][0] = 1
+start_time = time.time()
+print(count_best_positions())
+end_time = time.time()
+print('Time = %s ms' % ((end_time - start_time) * 1000))
+
 
 print()
