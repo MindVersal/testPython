@@ -100,11 +100,13 @@ def count_best_positions():
                     result_hor += 1
                 end = j
         if found:
-            if start != end:
-                # result += start + ((count_cols - 1) - end) + ((end - 1) - start - (result_hor - 1)) * 2
-                result += count_cols - start + end - 1 - result_hor * 2
-            else:
-                result += start + ((count_cols - 1) - end)
+            result += count_cols - 1 - start + end - result_hor * 2
+            # if start != end:
+            #     # result += start + ((count_cols - 1) - end) + ((end - 1) - start - (result_hor - 1)) * 2
+            #     result += count_cols - 1 - start + end - result_hor * 2
+            # else:
+            #     # result += start + ((count_cols - 1) - end)
+            #     result += count_cols - 1 + start - end
     for j in range(count_cols):
         found = False
         start = -1
@@ -119,11 +121,13 @@ def count_best_positions():
                     result_vert += 1
                 end = i
         if found:
-            if start != end:
-                # result += start + ((count_rows - 1) - end) + ((end - 1) - start - (result_vert - 1)) * 2
-                result += count_rows - start + end - 1 - result_vert * 2
-            else:
-                result += start + ((count_rows - 1) - end)
+            result += count_rows - 1 - start + end - result_vert * 2
+            # if start != end:
+            #     # result += start + ((count_rows - 1) - end) + ((end - 1) - start - (result_vert - 1)) * 2
+            #     result += count_rows - 1 - start + end - result_vert * 2
+            # else:
+            #     # result += start + ((count_rows - 1) - end)
+            #     result += count_rows - 1 + start - end
     return result
 
 
@@ -143,13 +147,14 @@ def count_best_positions():
 # file.close()
 # print(count_best_positions())
 input_array = []
-count_rows = 1000
-count_cols = 1000
+count_rows = 4
+count_cols = 4
 for i in range(count_rows):
     input_array.append([])
     for j in range(count_cols):
-        input_array[i].append(random.randint(1, 1))
-input_array[999][0] = 1
+        input_array[i].append(random.randint(0, 1))
+input_array[2][2] = 1
+print_arrary(input_array)
 start_time = time.time()
 print(count_best_positions())
 end_time = time.time()
