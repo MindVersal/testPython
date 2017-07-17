@@ -20,12 +20,15 @@ if __name__ == '__main__':
                               NAME='АБУ'
                             ORDER BY FAMILY, NAME, FARTHER, BIRTHDAY, KSIVA, CITY, SELSOVET, STREET, HOUSE, FLAT
                         """)
-    count = 0
+    count_all = 0
+    count_allow = 0
     temp_row = None
     for row in rows:
-        count += 1
+        count_all += 1
+
         if row != temp_row:
             print('{} {} {} {}'.format(row.FAMILY, row.NAME, row.FARTHER, row.BIRTHDAY.strftime("%d.%m.%Y")))
+            count_allow += 1
         temp_row = row
-    print('Count = {}'.format(count))
+    print('Count: allow/all = {}/{}'.format(count_allow, count_all))
     cnxn.close()
