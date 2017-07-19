@@ -416,11 +416,11 @@ class Ui_MainWindow(object):
         self.edit_house.setPlaceholderText(_translate("MainWindow", "Дом"))
         self.label_flat.setText(_translate("MainWindow", "Квартира"))
         self.edit_flat.setPlaceholderText(_translate("MainWindow", "Квартира"))
-        self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
-        self.actionReset.setText(_translate("MainWindow", "Reset"))
-        self.actionExit.setText(_translate("MainWindow", "Exit"))
-        self.actionAbout.setText(_translate("MainWindow", "About"))
+        self.menuFile.setTitle(_translate("MainWindow", "Файл"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Помощь"))
+        self.actionReset.setText(_translate("MainWindow", "Очистка"))
+        self.actionExit.setText(_translate("MainWindow", "Выход"))
+        self.actionAbout.setText(_translate("MainWindow", "О DB"))
 
 
 if __name__ == '__main__':
