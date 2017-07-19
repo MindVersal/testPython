@@ -12,7 +12,7 @@ def test_db(engine_test, db_name):
 
 
 def main():
-    print('Main Test.')
+    print('Preparing ACCESS DB.')
     connector_donor = (
         r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
         r'DBQ=E:\BD\2005.accdb;'
@@ -54,12 +54,19 @@ def main():
                 SELECT COUNT (*) FROM {}
                 """
     cursor_donor.execute(sql_count.format(r'2005'))
+    print('Preparing SQLite DB.')
     rowcount = cursor_donor.fetchone()[0]
     rows_donor = engine_donor.execute(sql_request)
-    engine_recipient.execute(sql_schema)
+    # engine_recipient.execute(sql_schema)
+    connection_recipient = engine_recipient.connect()
+    transaction_recipient = connection_recipient.begin()
+    connection_recipient.execute(sql_schema)
+    transaction_recipient.commit()
+    transaction_recipient = connection_recipient.begin()
     count_all = 0
     count_allow = 0
     temp_row = None
+    print('Converting...')
     bar = pyprind.ProgBar(rowcount)
     for row in rows_donor:
         bar.update()
@@ -77,15 +84,18 @@ def main():
             row_street = row.STREET.upper() if row.STREET is not None else '0'
             row_house = row.HOUSE.upper() if row.HOUSE is not None else '0'
             row_flat = str(row.FLAT).upper() if row.FLAT is not None else '0'
-            engine_recipient.execute(sql_insert, row_family, row_name, row_farther, row_birthday_year,
-                                     row_birthday_month, row_birthday_day, row_ksiva, row_city,
-                                     row_selsovet, row_street, row_house, row_flat)
+            connection_recipient.execute(sql_insert, row_family, row_name, row_farther, row_birthday_year,
+                                         row_birthday_month, row_birthday_day, row_ksiva, row_city,
+                                         row_selsovet, row_street, row_house, row_flat)
             count_allow += 1
         temp_row = row
+    transaction_recipient.commit()
     print('Count: read/all = {}/{}'.format(count_all, rowcount))
     print('Count read: allow/all = {}/{}'.format(count_allow, count_all))
     cursor_donor.close()
+    connection_recipient.close()
     # test_db(engine_recipient, r'db2005')
+    print('THE END.')
 
 
 if __name__ == '__main__':
