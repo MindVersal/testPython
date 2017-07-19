@@ -27,9 +27,7 @@ def main():
     engine_recipient = sqlalchemy.create_engine(r'sqlite:///{}'.format(connector_recipient))
     sql_request = """
                   SELECT * 
-                    FROM 2005  
-                    WHERE 
-                      NAME='ИННОКЕНТИЙ'
+                    FROM 2005
                     ORDER BY FAMILY, NAME, FARTHER, BIRTHDAY, KSIVA, CITY, SELSOVET, STREET, HOUSE, FLAT
                  """
     sql_schema = """
@@ -62,7 +60,7 @@ def main():
     count_all = 0
     count_allow = 0
     temp_row = None
-    bar = pyprind.ProgBar(245)
+    bar = pyprind.ProgBar(rowcount)
     for row in rows_donor:
         bar.update()
         count_all += 1
