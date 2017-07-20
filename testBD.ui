@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>687</height>
+    <width>1100</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,6 +18,30 @@
     <normaloff>icon_1.png</normaloff>icon_1.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>1100</width>
+     <height>625</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1100</width>
+     <height>625</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>1100</width>
+     <height>625</height>
+    </size>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
@@ -723,13 +747,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1097</width>
+     <width>1100</width>
      <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="actionReset"/>
     <addaction name="separator"/>
@@ -737,7 +761,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>Справка</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
@@ -747,17 +771,17 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionReset">
    <property name="text">
-    <string>Reset</string>
+    <string>Очистка</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>Выход</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>О DB</string>
    </property>
   </action>
  </widget>
