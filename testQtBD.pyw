@@ -23,6 +23,5 @@ if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     window = MyWindow()
-    # window = testQTBD_About.MyWindowAbout()
     window.show()
     sys.exit(app.exec_())

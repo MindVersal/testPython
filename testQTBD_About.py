@@ -5,6 +5,7 @@ class MyWindowAbout(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
         self.setWindowTitle('Form About from PNG.')
         self.resize(800, 480)
         pixmap = QtGui.QPixmap('123456.png')
