@@ -30,7 +30,8 @@ def select_from_db(familia='', name='', farther='',
 
 
 def main():
-    print('I am finding all records in db.')
+    print('I am finding all records in db...')
+    print('I am find:')
     select_all_range = select_all_from_bd()
     for row in select_all_range:
         print(row)
