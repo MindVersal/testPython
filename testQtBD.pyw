@@ -7,8 +7,8 @@ class MyWindow(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         uic.loadUi(r'./testBD.ui', self)
         QtWidgets.qApp.processEvents()
-        self.push_button_clear.clicked.connect(QtWidgets.qApp.quit)
-        self.push_button_search.clicked.connect(self.show_about_form)
+        self.actionExit.triggered.connect(QtWidgets.qApp.quit)
+        self.actionAbout.triggered.connect(self.show_about_form)
 
     def show_about_form(self):
         global modal_window
@@ -17,7 +17,6 @@ class MyWindow(QtWidgets.QMainWindow):
         modal_window.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
         modal_window.move(self.geometry().center() - modal_window.rect().center() + QtCore.QPoint(4, 50))
         modal_window.show()
-
 
 if __name__ == '__main__':
     import sys
