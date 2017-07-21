@@ -17,7 +17,10 @@ class MyWindowAbout(QtWidgets.QWidget):
         button = QtWidgets.QPushButton('Согласен!', self)
         button.setFixedSize(100, 25)
         button.move(350, 420)
-        button.clicked.connect(self.close)
+        button.clicked.connect(self.on_quit_event)
+
+    def on_quit_event(self):
+        self.close()
 
 
 if __name__ == '__main__':
