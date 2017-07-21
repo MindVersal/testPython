@@ -21,6 +21,9 @@ def select_from_db(familia='', name='', farther='',
                                 NAME='АБУ'
                               ORDER BY FAMILY, NAME, FARTHER
                           """
+    sql_count = """
+                    SELECT COUNT (*) FROM {}
+                    """
     rows = engine.execute(sql_request)
     for row in rows:
         yield ' '.join(row)
