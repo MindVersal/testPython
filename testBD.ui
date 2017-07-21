@@ -676,7 +676,7 @@
       </layout>
      </item>
      <item row="1" column="0">
-      <widget class="QTableView" name="tableView">
+      <widget class="QTableView" name="table_view_bd">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>

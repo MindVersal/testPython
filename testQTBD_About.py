@@ -22,7 +22,6 @@ class MyWindowAbout(QtWidgets.QWidget):
     def on_quit_event(self):
         self.close()
 
-
 if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
