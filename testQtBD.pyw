@@ -9,6 +9,10 @@ class MyWindow(QtWidgets.QMainWindow):
         QtWidgets.qApp.processEvents()
         self.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.actionAbout.triggered.connect(self.show_about_form)
+        list_zodiak = ['', 'Овен', 'Телец', 'Близнецы', 'Рак', 'Лев', 'Дева', 'Весы',
+                       'Скорпион', 'Стрелец', 'Козерог', 'Водолей', 'Рыбы']
+        combobox_zodiak_model = QtCore.QStringListModel(list_zodiak)
+        self.combobox_zodiak.setModel(combobox_zodiak_model)
 
     def show_about_form(self):
         global modal_window
