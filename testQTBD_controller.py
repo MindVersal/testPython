@@ -10,11 +10,21 @@ def select_from_db(family='', name='', farther='',
                    ksiva='', city='', selsovet='',
                    street='',house='', flat='',
                    zodiak=''):
-    sql_request = ''
+    sql_request_start = """
+                          SELECT * 
+                            FROM db2005 
+                        """
+    sql_request_end = ''
+    # sql_request_end = """
+    #                     WHERE NAME LIKE 'АБУ%'
+    #                   """
+    if name != '':
+        sql_request_end += """ WHERE NAME LIKE '""" + name.upper() + """%'"""
+    sql_request = sql_request_start + sql_request_end
     return testQTBD_model.select_from_db(family, name, farther,
                                          birthday_year, birthday_month, birthday_day,
                                          ksiva, city, selsovet,
-                                         street,house, flat,
+                                         street, house, flat,
                                          sql_request)
 
 

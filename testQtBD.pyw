@@ -13,6 +13,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.init_table_view_bd()
         self.init_combobox_zodiak()
         self.init_all_listeners()
+        self.check_box_interactive.setChecked(True)
 
     def init_all_listeners(self):
         self.actionExit.triggered.connect(QtWidgets.qApp.quit)
@@ -82,7 +83,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.edit_house.setText('')
         self.edit_flat.setText('')
         self.combobox_zodiak.setCurrentIndex(0)
-        self.check_box_interactive.setChecked(False)
+        self.check_box_interactive.setChecked(True)
 
     def show_about_form(self):
         global modal_window

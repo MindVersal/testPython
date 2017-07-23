@@ -16,11 +16,12 @@ def select_from_db(family='', name='', farther='',
     # sql_count = """
     #                 SELECT COUNT (*) FROM {}
     #                 """
-    sql_request = """
+    if sql_request == '':
+        sql_request = """
                         SELECT * 
                           FROM db2005
                           WHERE
-                            NAME='АБУ'
+                            NAME='ИННОКЕНТИЙ'
                           ORDER BY FAMILY, NAME, FARTHER
                       """
     rows = engine.execute(sql_request)
