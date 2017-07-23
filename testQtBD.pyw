@@ -43,24 +43,18 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def update_into_table(self):
         self.table_model.clear()
-        text_family = self.edit_family.text()
-        text_name = self.edit_name.text()
-        text_farther = self.edit_farther.text()
-        text_birthday_year = self.edit_birthday_year.text()
-        text_birthday_month = self.edit_birthday_month.text()
-        text_birthday_day = self.edit_birthday_day.text()
-        text_ksiva = self.edit_ksiva.text()
-        text_city = self.edit_city.text()
-        text_selsovet = self.edit_selsovet.text()
-        text_street = self.edit_street.text()
-        text_house = self.edit_house.text()
-        text_flat = self.edit_flat.text()
-        # for row in testQTBD_controller.select_from_bd(text_family, text_name, text_farther,
-        #                                               text_birthday_year, text_birthday_month, text_birthday_day,
-        #                                               text_ksiva, text_city, text_selsovet,
-        #                                               text_street, text_house, text_flat):
-        #     self.table_model.appendRow([QtGui.QStandardItem(item) for item in row])
-        for row in testQTBD_controller.select_all_from_bd():
+        for row in testQTBD_controller.select_from_db(self.edit_family.text(),
+                                                      self.edit_name.text(),
+                                                      self.edit_farther.text(),
+                                                      self.edit_birthday_year.text(),
+                                                      self.edit_birthday_month.text(),
+                                                      self.edit_birthday_day.text(),
+                                                      self.edit_ksiva.text(),
+                                                      self.edit_city.text(),
+                                                      self.edit_selsovet.text(),
+                                                      self.edit_street.text(),
+                                                      self.edit_house.text(),
+                                                      self.edit_flat.text()):
             self.table_model.appendRow([QtGui.QStandardItem(item) for item in row])
         self.init_table_view_bd()
 
