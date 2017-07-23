@@ -11,7 +11,6 @@ def select_from_db(family='', name='', farther='',
                    street='',house='', flat='',
                    zodiak=''):
     sql_request = ''
-    # return testQTBD_model.select_all_from_bd()
     return testQTBD_model.select_from_db(family, name, farther,
                                          birthday_year, birthday_month, birthday_day,
                                          ksiva, city, selsovet,

@@ -60,10 +60,11 @@ class MyWindow(QtWidgets.QMainWindow):
         self.init_table_view_bd()
 
     def init_combobox_zodiak(self):
-        list_zodiak = ['', 'Овен', 'Телец', 'Близнецы', 'Рак', 'Лев', 'Дева', 'Весы',
-                       'Скорпион', 'Стрелец', 'Козерог', 'Водолей', 'Рыбы']
+        list_zodiak = ['', 'ОВЕН', 'ТЕЛЕЦ', 'БЛИЗНЕЦЫ', 'РАК', 'ЛЕВ', 'ДЕВА', 'ВЕСЫ',
+                       'СКОРПИОН', 'СТРЕЛЕЦ', 'КОЗЕРОГ', 'ВОДОЛЕЙ', 'РЫБЫ']
         self.combobox_zodiak_model = QtCore.QStringListModel(list_zodiak)
         self.combobox_zodiak.setModel(self.combobox_zodiak_model)
+        self.combobox_zodiak.setMaxVisibleItems(13)
 
     def clear_inputs_and_table(self):
         self.table_model.clear()
