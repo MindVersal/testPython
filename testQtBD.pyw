@@ -7,6 +7,8 @@ class MyWindow(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         uic.loadUi(r'./testBD.ui', self)
         QtWidgets.qApp.processEvents()
+        self.table_model = QtGui.QStandardItemModel()
+        self.combobox_zodiak_model = QtCore.QStringListModel()
         self.init_table_view_bd()
         self.init_combobox_zodiak()
         self.init_all_listeners()
@@ -14,15 +16,16 @@ class MyWindow(QtWidgets.QMainWindow):
     def init_all_listeners(self):
         self.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.actionAbout.triggered.connect(self.show_about_form)
+        self.push_button_clear.clicked.connect(self.clear_inputs_and_table)
+        self.actionReset.triggered.connect(self.clear_inputs_and_table)
 
     def init_table_view_bd(self):
-        table_model = QtGui.QStandardItemModel()
         list_names_of_schema = ['Фамилия', 'Имя', 'Отчество',
                                 'Год', 'Месяц', 'День',
                                 'Документ', 'Город', 'Сельсовет',
                                 'Улица', 'Дом', 'Кв.']
-        table_model.setHorizontalHeaderLabels(list_names_of_schema)
-        self.table_view_bd.setModel(table_model)
+        self.table_model.setHorizontalHeaderLabels(list_names_of_schema)
+        self.table_view_bd.setModel(self.table_model)
         self.table_view_bd.setColumnWidth(0, 120)  # family
         self.table_view_bd.setColumnWidth(1, 120)  # name
         self.table_view_bd.setColumnWidth(2, 120)  # farther
@@ -39,8 +42,26 @@ class MyWindow(QtWidgets.QMainWindow):
     def init_combobox_zodiak(self):
         list_zodiak = ['', 'Овен', 'Телец', 'Близнецы', 'Рак', 'Лев', 'Дева', 'Весы',
                        'Скорпион', 'Стрелец', 'Козерог', 'Водолей', 'Рыбы']
-        combobox_zodiak_model = QtCore.QStringListModel(list_zodiak)
-        self.combobox_zodiak.setModel(combobox_zodiak_model)
+        self.combobox_zodiak_model = QtCore.QStringListModel(list_zodiak)
+        self.combobox_zodiak.setModel(self.combobox_zodiak_model)
+
+    def clear_inputs_and_table(self):
+        self.table_model.clear()
+        self.init_table_view_bd()
+        self.edit_family.setText('')
+        self.edit_name.setText('')
+        self.edit_farther.setText('')
+        self.edit_birthday_year.setText('')
+        self.edit_birthday_month.setText('')
+        self.edit_birthday_day.setText('')
+        self.edit_ksiva.setText('')
+        self.edit_city.setText('')
+        self.edit_selsovet.setText('')
+        self.edit_street.setText('')
+        self.edit_house.setText('')
+        self.edit_flat.setText('')
+        self.combobox_zodiak.setCurrentIndex(0)
+        self.check_box_interactive.setChecked(False)
 
     def show_about_form(self):
         global modal_window
