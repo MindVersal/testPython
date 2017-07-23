@@ -56,7 +56,8 @@ class MyWindow(QtWidgets.QMainWindow):
                                                       street=self.edit_street.text(),
                                                       house=self.edit_house.text(),
                                                       flat=self.edit_flat.text(),
-                                                      zodiak=self.combobox_zodiak.currentText()):
+                                                      zodiak=self.combobox_zodiak.currentText(),
+                                                      interactive=self.check_box_interactive.isChecked()):
             self.table_model.appendRow([QtGui.QStandardItem(item) for item in row])
         self.init_table_view_bd()
 
