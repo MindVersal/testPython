@@ -8,7 +8,7 @@ class MyWindowAbout(QtWidgets.QWidget):
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
         self.setWindowTitle('Form About from PNG.')
         self.resize(800, 480)
-        pixmap = QtGui.QPixmap(r'./123456.png')
+        pixmap = QtGui.QPixmap(r'./img/123456.png')
         pal = self.palette()
         pal.setBrush(QtGui.QPalette.Normal, QtGui.QPalette.Window, QtGui.QBrush(pixmap))
         pal.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, QtGui.QBrush(pixmap))
