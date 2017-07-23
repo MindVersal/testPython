@@ -5,7 +5,7 @@ def select_all_from_bd():
     return select_from_db()
 
 
-def select_from_db(familia='', name='', farther='',
+def select_from_db(family='', name='', farther='',
                    birthday_year='', birthday_month='', birthday_day='',
                    ksiva='', city='', selsovet='',
                    street='',house='', flat='', sql_request=''):

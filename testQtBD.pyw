@@ -43,18 +43,19 @@ class MyWindow(QtWidgets.QMainWindow):
 
     def update_into_table(self):
         self.table_model.clear()
-        for row in testQTBD_controller.select_from_db(self.edit_family.text(),
-                                                      self.edit_name.text(),
-                                                      self.edit_farther.text(),
-                                                      self.edit_birthday_year.text(),
-                                                      self.edit_birthday_month.text(),
-                                                      self.edit_birthday_day.text(),
-                                                      self.edit_ksiva.text(),
-                                                      self.edit_city.text(),
-                                                      self.edit_selsovet.text(),
-                                                      self.edit_street.text(),
-                                                      self.edit_house.text(),
-                                                      self.edit_flat.text()):
+        for row in testQTBD_controller.select_from_db(family=self.edit_family.text(),
+                                                      name=self.edit_name.text(),
+                                                      farther=self.edit_farther.text(),
+                                                      birthday_year=self.edit_birthday_year.text(),
+                                                      birthday_month=self.edit_birthday_month.text(),
+                                                      birthday_day=self.edit_birthday_day.text(),
+                                                      ksiva=self.edit_ksiva.text(),
+                                                      city=self.edit_city.text(),
+                                                      selsovet=self.edit_selsovet.text(),
+                                                      street=self.edit_street.text(),
+                                                      house=self.edit_house.text(),
+                                                      flat=self.edit_flat.text(),
+                                                      zodiak=self.combobox_zodiak.currentText()):
             self.table_model.appendRow([QtGui.QStandardItem(item) for item in row])
         self.init_table_view_bd()
 
