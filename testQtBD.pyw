@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, uic, QtCore, QtGui
 import testQTBD_About
+import testQTBD_model
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -17,6 +18,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.actionAbout.triggered.connect(self.show_about_form)
         self.push_button_clear.clicked.connect(self.clear_inputs_and_table)
+        self.push_button_search.clicked.connect(self.update_into_table)
         self.actionReset.triggered.connect(self.clear_inputs_and_table)
 
     def init_table_view_bd(self):
@@ -38,6 +40,12 @@ class MyWindow(QtWidgets.QMainWindow):
         self.table_view_bd.setColumnWidth(9, 150)  # street
         self.table_view_bd.setColumnWidth(10, 40)  # house
         self.table_view_bd.setColumnWidth(11, 40)  # flat
+
+    def update_into_table(self):
+        self.table_model.clear()
+        for row in testQTBD_model.select_all_from_bd():
+            self.table_model.appendRow([QtGui.QStandardItem(item) for item in row])
+        self.init_table_view_bd()
 
     def init_combobox_zodiak(self):
         list_zodiak = ['', 'Овен', 'Телец', 'Близнецы', 'Рак', 'Лев', 'Дева', 'Весы',

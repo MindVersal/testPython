@@ -26,7 +26,7 @@ def select_from_db(familia='', name='', farther='',
                     """
     rows = engine.execute(sql_request)
     for row in rows:
-        yield ' '.join(row)
+        yield row
 
 
 def main():
