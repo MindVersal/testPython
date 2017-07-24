@@ -21,6 +21,18 @@ class MyWindow(QtWidgets.QMainWindow):
         self.push_button_clear.clicked.connect(self.clear_inputs_and_table)
         self.push_button_search.clicked.connect(self.update_into_table)
         self.actionReset.triggered.connect(self.clear_inputs_and_table)
+        self.edit_family.returnPressed.connect(self.update_into_table)
+        self.edit_name.returnPressed.connect(self.update_into_table)
+        self.edit_farther.returnPressed.connect(self.update_into_table)
+        self.edit_birthday_year.returnPressed.connect(self.update_into_table)
+        self.edit_birthday_month.returnPressed.connect(self.update_into_table)
+        self.edit_birthday_day.returnPressed.connect(self.update_into_table)
+        self.edit_city.returnPressed.connect(self.update_into_table)
+        self.edit_selsovet.returnPressed.connect(self.update_into_table)
+        self.edit_ksiva.returnPressed.connect(self.update_into_table)
+        self.edit_street.returnPressed.connect(self.update_into_table)
+        self.edit_house.returnPressed.connect(self.update_into_table)
+        self.edit_flat.returnPressed.connect(self.update_into_table)
 
     def init_table_view_bd(self):
         list_names_of_schema = ['Фамилия', 'Имя', 'Отчество',

@@ -154,8 +154,11 @@ def select_from_db(family='', name='', farther='',
         else:
             no_first_where_in_sql = True
         sql_request_where += """ (STREET='""" + flat.upper() + """')"""
-
-    sql_request = sql_request_start + sql_request_where
+    if no_first_where_in_sql:
+        sql_request = sql_request_start + sql_request_where
+    else:
+        # sql_request = sql_request_start
+        sql_request = ''
     return testQTBD_model.select_from_db(sql_request=sql_request)
 
 
