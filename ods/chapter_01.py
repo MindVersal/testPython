@@ -36,14 +36,28 @@ def percent_smoking(df):
     print(round(mean_smoking_gender_2 / mean_smoking_gender_1))
 
 
+def mean_between_smoking_ans_no_smoking(df):
+    mean_smoking = df[df['smoke'] == 1]['age'].mean()
+    mean_no_smoking = df[df['smoke'] == 0]['age'].mean()
+    print(round((mean_no_smoking - mean_smoking) / 30))
+
+
+def between_sick_and_no_sick_humans(df):
+    print('Do it')
+
+
 if __name__ == '__main__':
     df = pd.read_csv('../data/mlbootcamp5_train.csv', sep=';', index_col='id')
     pd.set_option('display.width', 100)
     print('DataFrame head: \n{}'.format(df.head()))
     print('DataFrame shape: {}'.format(df.shape))
-    print('How much women and men in DataFrame:')
+    print('1. How much women and men in DataFrame:')
     detect_gender(df)
-    print('Who in mean write, what have alcohol: ')
+    print('2. Who in mean write, what have alcohol: ')
     detect_alcohol(df)
-    print('Count percent smoking is biggest men of women:')
+    print('3. Count percent smoking is biggest men of women:')
     percent_smoking(df)
+    print('4. How much month between smoking and no smoking.')
+    mean_between_smoking_ans_no_smoking(df)
+    print('5. How much count between sick and no sick humans: ')
+    between_sick_and_no_sick_humans(df)
