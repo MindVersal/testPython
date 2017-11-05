@@ -7,3 +7,7 @@ if __name__ == '__main__':
     pd.set_option('display.width', 100)
     print('DataFrame head: \n{}'.format(df.head()))
     print('DataFrame shape: {}'.format(df.shape))
+    print('Count (women) gender == 1 : {}, mean height : {}'.
+          format(len(df[df['gender'] == 1]), df[df['gender'] == 1]['height'].mean()))
+    print('Count ( men ) gender == 2 : {}, mean height : {}'.
+          format(len(df[df['gender'] == 2]), df[df['gender'] == 2]['height'].mean()))
