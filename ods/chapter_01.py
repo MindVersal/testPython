@@ -17,15 +17,23 @@ def detect_gender(df):
           format(len(gender_1), gender_1_name, len(gender_2), gender_2_name))
 
 
-def detect_alcohol(pd):
+def detect_alcohol(df):
     gender_1_name = 'women'
     gender_2_name = 'man'
-    count_alcohol_gender_1 = df[df['gender'] == 1]['alco'].mean()
-    count_alcohol_gender_2 = df[df['gender'] == 2]['alco'].mean()
-    if count_alcohol_gender_1 > count_alcohol_gender_2:
+    mean_alcohol_gender_1 = df[df['gender'] == 1]['alco'].mean()
+    mean_alcohol_gender_2 = df[df['gender'] == 2]['alco'].mean()
+    if mean_alcohol_gender_1 > mean_alcohol_gender_2:
         print('women')
     else:
         print('men')
+
+
+def percent_smoking(df):
+    gender_1_name = 'women'
+    gender_2_name = 'men'
+    mean_smoking_gender_1 = df[df['gender'] == 1]['smoke'].mean()
+    mean_smoking_gender_2 = df[df['gender'] == 2]['smoke'].mean()
+    print(round(mean_smoking_gender_2 / mean_smoking_gender_1))
 
 
 if __name__ == '__main__':
@@ -37,3 +45,5 @@ if __name__ == '__main__':
     detect_gender(df)
     print('Who in mean write, what have alcohol: ')
     detect_alcohol(df)
+    print('Count percent smoking is biggest men of women:')
+    percent_smoking(df)
