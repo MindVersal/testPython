@@ -43,12 +43,51 @@ def mean_between_smoking_ans_no_smoking(df):
 
 
 def between_sick_and_no_sick_humans(df):
+    df.insert(loc=len(df.columns), column='age_years', value=round(df['age'] / 365))
+    smoking_men_age_60_64 = df[(df['gender'] == 2) & (df['age_years'] >= 60) & (df['age_years'] <= 64)]
+    # 1 => 4; 2 => 5-7; 3 => 8;
+    smoking_men_age_60_64_and_ap_120_and_chol_4 = \
+        smoking_men_age_60_64[(smoking_men_age_60_64['ap_hi'] < 120) &
+                              (smoking_men_age_60_64['cholesterol'] == 1)]
+    smoking_men_age_60_64_and_ap_160_180_and_chol_8 = \
+        smoking_men_age_60_64[(smoking_men_age_60_64['ap_hi'] >= 160) &
+                              (smoking_men_age_60_64['ap_hi'] < 180) &
+                              (smoking_men_age_60_64['cholesterol'] == 3)]
+    print(round(smoking_men_age_60_64_and_ap_120_and_chol_4['age'].count() /
+                smoking_men_age_60_64_and_ap_160_180_and_chol_8['age'].count()))
+
+
+def test_bmi(df):
+    df.insert(loc=len(df.columns), column='bmi', value=round(df['weight'] / pow((df['height'] / 100), 2)))
+    mean_bmi_for_all = round(df['bmi'].mean())
+    print('Mean BMI for all in DataFrame: {}'.format(mean_bmi_for_all))
+    print(18.5 <= mean_bmi_for_all <= 25)
+    mean_bmi_for_women = round(df[df['gender'] == 1]['bmi'].mean())
+    mean_bmi_for_men = round(df[df['gender'] == 2]['bmi'].mean())
+    print('Mean BMI for women (gender == 1): {}'.format(mean_bmi_for_women))
+    print('Mean BMI for men (gender == 2): {}'.format(mean_bmi_for_men))
+    print(mean_bmi_for_women > mean_bmi_for_men)
+    mean_bmi_for_sicking = round(df[df['cardio'] == 1]['bmi'].mean())
+    mean_bmi_for_no_sicking = round(df[df['cardio'] == 0]['bmi'].mean())
+    print('Mean BMI for cardio = 0: {}'.format(mean_bmi_for_no_sicking))
+    print('Mean BMI for cardio = 1: {}'.format(mean_bmi_for_sicking))
+    print(mean_bmi_for_no_sicking > mean_bmi_for_sicking)
+    mean_bmi_for_no_sicking_and_no_alco_men = round(df[(df['gender'] == 2) &
+                                                       (df['cardio'] == 0) &
+                                                       (df['alco'] == 0)]['bmi'].mean())
+    mean_bmi_for_no_sicking_and_no_alco_women = round(df[(df['gender'] == 1) &
+                                                         (df['cardio'] == 0) &
+                                                         (df['alco'] == 0)]['bmi'].mean())
+    print('Mean no sicking and no alcohol men: {}'.format(mean_bmi_for_no_sicking_and_no_alco_men))
+    print('Mean no sicking and no alcohol women: {}'.format(mean_bmi_for_no_sicking_and_no_alco_women))
+    print(abs((((25 - 18.5) / 2) - mean_bmi_for_no_sicking_and_no_alco_men)) <
+          abs((((25 - 18.5) / 2) - mean_bmi_for_no_sicking_and_no_alco_women)))
     print('Do it')
 
 
 if __name__ == '__main__':
     df = pd.read_csv('../data/mlbootcamp5_train.csv', sep=';', index_col='id')
-    pd.set_option('display.width', 100)
+    pd.set_option('display.width', 120)
     print('DataFrame head: \n{}'.format(df.head()))
     print('DataFrame shape: {}'.format(df.shape))
     print('1. How much women and men in DataFrame:')
@@ -61,3 +100,5 @@ if __name__ == '__main__':
     mean_between_smoking_ans_no_smoking(df)
     print('5. How much count between sick and no sick humans: ')
     between_sick_and_no_sick_humans(df)
+    print('6. Test Body Mass Index: ')
+    test_bmi(df)
