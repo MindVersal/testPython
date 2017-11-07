@@ -82,7 +82,19 @@ def test_bmi(df):
     print('Mean no sicking and no alcohol women: {}'.format(mean_bmi_for_no_sicking_and_no_alco_women))
     print(abs((((25 - 18.5) / 2) - mean_bmi_for_no_sicking_and_no_alco_men)) <
           abs((((25 - 18.5) / 2) - mean_bmi_for_no_sicking_and_no_alco_women)))
-    print('Do it')
+
+
+def count_percent_after_clear_df(df):
+    count_all_rows = df['age'].count()
+    df = df[df['ap_lo'] < df['ap_hi']]
+    quantil_025_of_height_in_df = df['height'].quantile(.025)
+    quantil_975_of_height_in_df = df['height'].quantile(.975)
+    df = df[(df['height'] >= quantil_025_of_height_in_df) & (df['height'] <= quantil_975_of_height_in_df)]
+    quantil_025_of_weight_in_df = df['weight'].quantile(.025)
+    quantil_975_of_weight_in_df = df['weight'].quantile(.975)
+    df = df[(df['weight'] >= quantil_025_of_weight_in_df) & (df['weight'] <= quantil_975_of_weight_in_df)]
+    count_rows_after_clearing = df['age'].count()
+    print(round(((count_all_rows - count_rows_after_clearing) / count_all_rows) * 100))
 
 
 if __name__ == '__main__':
@@ -90,6 +102,7 @@ if __name__ == '__main__':
     pd.set_option('display.width', 120)
     print('DataFrame head: \n{}'.format(df.head()))
     print('DataFrame shape: {}'.format(df.shape))
+    print('\nAnswering on questions.\n')
     print('1. How much women and men in DataFrame:')
     detect_gender(df)
     print('2. Who in mean write, what have alcohol: ')
@@ -102,3 +115,5 @@ if __name__ == '__main__':
     between_sick_and_no_sick_humans(df)
     print('6. Test Body Mass Index: ')
     test_bmi(df)
+    print('7. How many percent get out after clearing.')
+    count_percent_after_clear_df(df)
