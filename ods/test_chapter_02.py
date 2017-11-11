@@ -19,8 +19,11 @@ def test_seaborn_and_ploty():
                     'User_Score', 'User_Count', 'Rating'
                     ]
     print(df[userful_cols].head())
-    sales_df = df[[x for x in df.columns if 'Sales' in x] + ['Year_of_Release']]
-    sales_df.groupby('Year_of_Release').sum().plot(kind='bar', rot=45)
+    # sales_df = df[[x for x in df.columns if 'Sales' in x] + ['Year_of_Release']]
+    # sales_df.groupby('Year_of_Release').sum().plot(kind='bar', rot=45)
+    cols = ['Global_Sales', 'Critic_Score', 'Critic_Count', 'User_Score', 'User_Count']
+    sns_plot = sns.pairplot(df[cols])
+    sns_plot.savefig('pairplot.png')
     plt.show()
 
 
