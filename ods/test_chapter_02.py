@@ -3,6 +3,9 @@ from pylab import rcParams
 import pandas as pd
 import seaborn as sns
 import numpy as np
+from sklearn.manifold import TSNE
+from sklearn.neural_network.tests.test_stochastic_optimizers import test_sgd_optimizer_nesterovs_momentum
+from sklearn.preprocessing import StandardScaler
 
 
 def test_seaborn_and_ploty():
@@ -78,7 +81,24 @@ def test_telecom():
     # sns.countplot(x='International plan', hue='Churn', data=df, ax=axes[0])
     # sns.countplot(x='Voice mail plan', hue='Churn', data=df, ax=axes[1])
     # 9
-    print(df.groupby(['State'])['Churn'].agg([np.mean]).sort_values(by='mean', ascending=False).head())
+    # print(df.groupby(['State'])['Churn'].agg([np.mean]).sort_values(by='mean', ascending=False).head())
+    # 10
+    X = df.drop(['Churn', 'State'], axis=1)
+    X['International plan'] = pd.factorize(X['International plan'])[0]
+    X['Voice mail plan'] = pd.factorize(X['Voice mail plan'])[0]
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    tsne = TSNE(random_state=17)
+    tsne_representation = tsne.fit_transform(X_scaled)
+    # plt.scatter(tsne_representation[:, 0], tsne_representation[:, 1],
+    #             c=df['Churn'].map({0: 'blue', 1: 'orange'}))
+    _, axes = plt.subplots(1, 2, sharey=True, figsize=(16, 6))
+    axes[0].scatter(tsne_representation[:, 0], tsne_representation[:, 1],
+                    c=df['International plan'].map({'Yes': 'blue', 'No': 'orange'}))
+    axes[1].scatter(tsne_representation[:, 0], tsne_representation[:, 1],
+                    c=df['Voice mail plan'].map({'Yes': 'blue', 'No': 'orange'}))
+    axes[0].set_title('International plan')
+    axes[1].set_title('Voices mail plan')
     plt.show()
 
 
