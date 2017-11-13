@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
-import  seaborn as sns
+import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import StandardScaler
 
 
 def test_hw_ch_02():
@@ -40,6 +42,20 @@ def test_hw_ch_02():
     # sns.kdeplot(train[train['gender'] == 1]['height'], ax=axes[0])
     # sns.kdeplot(train[train['gender'] == 2]['height'], ax=axes[1])
     print('Gender 1 == Women, Gender 1 == Men')
+    print('Answer on question 3:')
+    scaler = StandardScaler()
+    X = train.drop(['cardio'], axis=1)
+    X.dropna(inplace=True)
+    X_scaled = scaler.fit_transform(X)
+    tsne = TSNE(random_state=42)
+    # tsne_representation = tsne.fit_transform(X_scaled)
+    # plt.scatter(tsne_representation[:, 0], tsne_representation[:, 1],
+    #             c=train['cardio'].map({0: 'green', 1: 'red'}))
+    # sns.pairplot(train, hue='cardio')
+    print('Answer on question 5:')
+    train['age_years'] = (train['age'] // 365.25).astype(int)
+    # sns.countplot(x='age_years', hue='cardio', data=train)
+    print('53')
     plt.show()
 
 
@@ -48,5 +64,5 @@ if __name__ == '__main__':
                     font_scale=1.5,
                     rc={'figure.figsize': (12, 9),
                         'axes.titlesize': 18})
-    pd.set_option('display.width', 120)
+    # pd.set_option('display.width', 120)
     test_hw_ch_02()
