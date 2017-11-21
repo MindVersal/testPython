@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_digits
 
 
 def f(x):
@@ -93,7 +94,20 @@ def analise_kneigebors_churn():
     # print(df.head())
 
 
+def detect_digits():
+    print('Detect digits in assrsy.')
+    data = load_digits()
+    X, y = data.data, data.target
+    X[0, :].reshape([8, 8])
+    f, axes = plt.subplots(1, 4, sharey=True, figsize=(16, 6))
+    for i in range(4):
+        axes[i].imshow(X[i, :].reshape([8, 8]))
+
+    plt.show()
+
+
 if __name__ == '__main__':
     print('Testing Chapter 03')
     # plotting_predict_of_tree()
-    analise_kneigebors_churn()
+    # analise_kneigebors_churn()
+    detect_digits()
