@@ -55,6 +55,11 @@ def test_adult():
     df_test = create_test(df_test, features)
     print('DataFrame Train shape: {}'.format(df_train.shape))
     print('DataFrame Test shape: {}'.format(df_test.shape))
+    y = df_train['Поедет']
+    df_train, df_test = intersect_features(train=df_train, test=df_test)
+    print('DataFrame Train shape: {}'.format(df_train.shape))
+    print('DataFrame Test shape: {}'.format(df_test.shape))
+    print(df_train)
     # plt.show()
 
 
