@@ -63,7 +63,8 @@ def test_adult():
     go_tree_classifier = DecisionTreeClassifier(random_state=42)
     go_tree_classifier.fit(df_train[['Внешность_приятная']].values, y.values)
     print(go_tree_classifier)
-
+    export_graphviz(go_tree_classifier, feature_names=['Внешность_приятная'],
+                    out_file='../img/small_tree.dot', filled=True)
     # plt.show()
 
 
