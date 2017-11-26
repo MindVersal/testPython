@@ -66,7 +66,8 @@ def test_adult():
     go_tree_classifier.fit(df_train[['Внешность_приятная']].values, y.values)
     print(go_tree_classifier)
     dot_data = StringIO()
-    export_graphviz(go_tree_classifier, out_file=dot_data)
+    export_graphviz(go_tree_classifier, feature_names=['Внешность_приятная'],
+                    out_file=dot_data, filled=True)
     graph_data = pydotplus.graph_from_dot_data(dot_data.getvalue())
     graph_data.write_pdf('../img/go_tree_classifier.pdf')
     # plt.show()
