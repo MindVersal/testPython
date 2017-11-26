@@ -8,6 +8,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.externals.six import StringIO
+import pydotplus
 
 
 def init_first():
@@ -63,8 +65,10 @@ def test_adult():
     go_tree_classifier = DecisionTreeClassifier(random_state=42)
     go_tree_classifier.fit(df_train[['Внешность_приятная']].values, y.values)
     print(go_tree_classifier)
-    export_graphviz(go_tree_classifier, feature_names=['Внешность_приятная'],
-                    out_file='../img/small_tree.dot', filled=True)
+    dot_data = StringIO()
+    export_graphviz(go_tree_classifier, out_file=dot_data)
+    graph_data = pydotplus.graph_from_dot_data(dot_data.getvalue())
+    graph_data.write_pdf('../img/go_tree_classifier.pdf')
     # plt.show()
 
 
