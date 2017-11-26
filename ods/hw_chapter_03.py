@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import collections
 from sklearn.model_selection import GridSearchCV
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
@@ -55,11 +55,15 @@ def test_adult():
     df_test = create_test(df_test, features)
     print('DataFrame Train shape: {}'.format(df_train.shape))
     print('DataFrame Test shape: {}'.format(df_test.shape))
-    y = df_train['Поедет']
+    y = df_train[['Поедет']]
     df_train, df_test = intersect_features(train=df_train, test=df_test)
     print('DataFrame Train shape: {}'.format(df_train.shape))
     print('DataFrame Test shape: {}'.format(df_test.shape))
-    print(df_train)
+    print(y)
+    go_tree_classifier = DecisionTreeClassifier(random_state=42)
+    go_tree_classifier.fit(df_train[['Внешность_приятная']].values, y.values)
+    print(go_tree_classifier)
+
     # plt.show()
 
 
