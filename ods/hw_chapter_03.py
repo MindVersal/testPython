@@ -63,11 +63,12 @@ def test_adult():
     print('DataFrame Test shape: {}'.format(df_test.shape))
     print(y)
     go_tree_classifier = DecisionTreeClassifier(random_state=42)
-    go_tree_classifier.fit(df_train[['Внешность_приятная']].values, y.values)
+    go_tree_classifier.fit(df_train.values, y.values)
     print(go_tree_classifier)
     dot_data = StringIO()
-    export_graphviz(go_tree_classifier, feature_names=['Внешность_приятная'],
-                    out_file=dot_data, filled=True)
+    export_graphviz(go_tree_classifier,
+                    out_file=dot_data,
+                    filled=True)
     graph_data = pydotplus.graph_from_dot_data(dot_data.getvalue())
     graph_data.write_pdf('../img/go_tree_classifier.pdf')
     # plt.show()
