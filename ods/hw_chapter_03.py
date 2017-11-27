@@ -84,11 +84,20 @@ def entropy(a_list):
             counts[i] += 1
         else:
             counts[i] = 1
-    sum = 0
+    sum_entropy = 0
     for i in counts.keys():
         p = counts[i]/count_all
-        sum -= p * math.log2(p)
-    return sum
+        sum_entropy -= p * math.log2(p)
+    return sum_entropy
+
+
+def information_gain(root, left, right):
+    count_elements_in_root = len(root)
+    count_elements_in_left = len(left)
+    count_elements_in_right = len(right)
+    entropy_left_and_right = (count_elements_in_left / count_elements_in_root) * entropy(left) + \
+                             (count_elements_in_right / count_elements_in_root) * entropy(right)
+    return entropy(root) - entropy_left_and_right
 
 
 def calculate_entropy():
@@ -96,14 +105,15 @@ def calculate_entropy():
     balls = [1 for i in range(9)] + [0 for i in range(11)]
     balls_left = [1 for i in range(8)] + [0 for i in range(5)]
     balls_right = [1 for i in range(1)] + [0 for i in range(6)]
-    print('Balls      : {}'.format(balls))
-    print('Balls left : {}'.format(balls_left))
-    print('Balls right: {}'.format(balls_right))
-    print('Entropy balls      : {}'.format(entropy(balls)))
-    print('Entropy balls_left : {}'.format(entropy(balls_left)))
-    print('Entropy balls_right: {}'.format(entropy(balls_right)))
-    print('Array [1,2,3,4,5,6]: {}'.format(entropy([1, 2, 3, 4, 5, 6])))
-    print('Array []: {}'.format(entropy([])))
+    # print('Balls      : {}'.format(balls))
+    # print('Balls left : {}'.format(balls_left))
+    # print('Balls right: {}'.format(balls_right))
+    print('Entropy balls      : {:.3f}'.format(entropy(balls)))
+    print('Entropy balls_left : {:.3f}'.format(entropy(balls_left)))
+    print('Entropy balls_right: {:.3f}'.format(entropy(balls_right)))
+    print('Array [1,2,3,4,5,6]: {:.3f}'.format(entropy([1, 2, 3, 4, 5, 6])))
+    print('Array []: {:.3f}'.format(entropy([])))
+    print('Information gain (IG) = {:.3f}'.format(information_gain(balls, balls_left, balls_right)))
 
 
 def last_end():
