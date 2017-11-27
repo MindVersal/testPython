@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.externals.six import StringIO
 import pydotplus
+import math
 
 
 def init_first():
@@ -75,8 +76,34 @@ def test_adult():
     # plt.show()
 
 
+def entropy(a_list):
+    counts = {}
+    count_all = len(a_list)
+    for i in a_list:
+        if i in counts.keys():
+            counts[i] += 1
+        else:
+            counts[i] = 1
+    sum = 0
+    for i in counts.keys():
+        p = counts[i]/count_all
+        sum -= p * math.log2(p)
+    return sum
+
+
 def calculate_entropy():
     print('Calculate entropy.')
+    balls = [1 for i in range(9)] + [0 for i in range(11)]
+    balls_left = [1 for i in range(8)] + [0 for i in range(5)]
+    balls_right = [1 for i in range(1)] + [0 for i in range(6)]
+    print('Balls      : {}'.format(balls))
+    print('Balls left : {}'.format(balls_left))
+    print('Balls right: {}'.format(balls_right))
+    print('Entropy balls      : {}'.format(entropy(balls)))
+    print('Entropy balls_left : {}'.format(entropy(balls_left)))
+    print('Entropy balls_right: {}'.format(entropy(balls_right)))
+    print('Array [1,2,3,4,5,6]: {}'.format(entropy([1, 2, 3, 4, 5, 6])))
+    print('Array []: {}'.format(entropy([])))
 
 
 def last_end():
