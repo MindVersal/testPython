@@ -61,10 +61,11 @@ def test_adult():
     df_train, df_test = intersect_features(train=df_train, test=df_test)
     print('DataFrame Train shape: {}'.format(df_train.shape))
     print('DataFrame Test shape: {}'.format(df_test.shape))
-    print(y)
     go_tree_classifier = DecisionTreeClassifier(random_state=42)
     go_tree_classifier.fit(df_train.values, y.values)
     print(go_tree_classifier)
+    print(df_train.values)
+    print(y)
     dot_data = StringIO()
     export_graphviz(go_tree_classifier,
                     out_file=dot_data,
@@ -74,11 +75,16 @@ def test_adult():
     # plt.show()
 
 
+def calculate_entropy():
+    print('Calculate entropy.')
+
+
 def last_end():
     print('The End')
 
 
 if __name__ == '__main__':
     init_first()
-    test_adult()
+    # test_adult()
+    calculate_entropy()
     last_end()
