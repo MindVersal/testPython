@@ -116,6 +116,11 @@ def calculate_entropy():
     print('Information gain (IG) = {:.3f}'.format(information_gain(balls, balls_left, balls_right)))
 
 
+def analise_adult_dadaframe():
+    data_train = pd.read_csv('../data/adult_train.csv', sep=';')
+    print(data_train.head())
+
+
 def last_end():
     print('The End')
 
@@ -123,5 +128,6 @@ def last_end():
 if __name__ == '__main__':
     init_first()
     # test_adult()
-    calculate_entropy()
+    # calculate_entropy()
+    analise_adult_dadaframe()
     last_end()
