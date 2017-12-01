@@ -15,6 +15,7 @@ import math
 
 def init_first():
     print('Homework for chapter 03')
+    pd.set_option('display.width', 220)
 
 
 def create_df(dic, feature_list):
@@ -118,11 +119,20 @@ def calculate_entropy():
 
 def analise_adult_dadaframe():
     data_train = pd.read_csv('../data/adult_train.csv', sep=';')
-    print(data_train.head())
+    data_test = pd.read_csv('../data/adult_test.csv', sep=';')
+    data_test = data_test[(data_test['Target'] == ' >50K.') | (data_test['Target'] == ' <=50K.')]
+    data_train.at[data_train['Target'] == ' <=50K.', 'Target'] = 0
+    data_train.at[data_train['Target'] == ' >50K.', 'Target'] = 1
+    data_test.at[data_test['Target'] == ' <=50K.', 'Target'] = 0
+    data_test.at[data_test['Target'] == ' >50K.', 'Target'] = 1
+    print(data_test.describe(include='all').T)
+
+    print('\nCounts: \n{}'.format(data_train['Target'].value_counts()))
+    # print(data_test.head())
 
 
 def last_end():
-    print('The End')
+    print('\nThe End')
 
 
 if __name__ == '__main__':
