@@ -125,10 +125,23 @@ def analise_adult_dadaframe():
     data_train.at[data_train['Target'] == ' >50K.', 'Target'] = 1
     data_test.at[data_test['Target'] == ' <=50K.', 'Target'] = 0
     data_test.at[data_test['Target'] == ' >50K.', 'Target'] = 1
-    print(data_test.describe(include='all').T)
+    # print(data_test.describe(include='all').T)
+    fig = plt.figure(figsize=(25, 15))
+    cols =5
+    rows = np.ceil(float(data_train.shape[1]) / cols)
+    for i, column in enumerate(data_train.columns):
+        ax = fig.add_subplot(rows, cols, i + 1)
+        ax.set_title(column)
+        if data_train.dtypes[column] == np.object:
+            data_train[column].value_counts().plot(kind='bar', axes=ax)
+        else:
+            data_train[column].hist(axes=ax)
+            plt.xticks(rotation='vertical')
+    plt.subplots_adjust(hspace=0.7, wspace=0.2)
 
     print('\nCounts: \n{}'.format(data_train['Target'].value_counts()))
     # print(data_test.head())
+    plt.show()
 
 
 def last_end():
