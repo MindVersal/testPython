@@ -121,8 +121,8 @@ def analise_adult_dadaframe():
     data_train = pd.read_csv('../data/adult_train.csv', sep=';')
     data_test = pd.read_csv('../data/adult_test.csv', sep=';')
     data_test = data_test[(data_test['Target'] == ' >50K.') | (data_test['Target'] == ' <=50K.')]
-    data_train.at[data_train['Target'] == ' <=50K.', 'Target'] = 0
-    data_train.at[data_train['Target'] == ' >50K.', 'Target'] = 1
+    data_train.at[data_train['Target'] == ' <=50K', 'Target'] = 0
+    data_train.at[data_train['Target'] == ' >50K', 'Target'] = 1
     data_test.at[data_test['Target'] == ' <=50K.', 'Target'] = 0
     data_test.at[data_test['Target'] == ' >50K.', 'Target'] = 1
     # print(data_test.describe(include='all').T)
@@ -202,7 +202,20 @@ def analise_adult_dadaframe():
     X_test = data_test.drop(['Target'], axis=1)
     y_test = data_test['Target']
 
-    plt.show()
+    tree = DecisionTreeClassifier(random_state=17, max_depth=3)
+    tree.fit(X_train, y_train)
+    tree_predictions = tree.predict(X_test)
+    print('Accuracy: {}'.format(accuracy_score(y_test, tree_predictions)))
+    tree_params = {'max_depth': range(2, 11)}
+    locally_best_tree = GridSearchCV(tree, tree_params, cv=5, n_jobs=1, verbose=True)
+    locally_best_tree.fit(X_train, y_train)
+    print('Best params GridSearchCV: {}'.format(locally_best_tree.best_params_))
+    print('Best cross validation score GridSearchCV: {}'.format(locally_best_tree.best_score_))
+    tuned_tree = DecisionTreeClassifier(random_state=17, max_depth=9)
+    tuned_tree.fit(X_train, y_train)
+    tuned_tree_predictions = tuned_tree.predict(X_test)
+    print('Accuracy tuned tree: {}'.format(accuracy_score(y_test, tuned_tree_predictions)))
+    # plt.show()
 
 
 def last_end():
