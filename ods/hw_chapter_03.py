@@ -126,21 +126,74 @@ def analise_adult_dadaframe():
     data_test.at[data_test['Target'] == ' <=50K.', 'Target'] = 0
     data_test.at[data_test['Target'] == ' >50K.', 'Target'] = 1
     # print(data_test.describe(include='all').T)
-    fig = plt.figure(figsize=(25, 15))
-    cols =5
-    rows = np.ceil(float(data_train.shape[1]) / cols)
-    for i, column in enumerate(data_train.columns):
-        ax = fig.add_subplot(rows, cols, i + 1)
-        ax.set_title(column)
-        if data_train.dtypes[column] == np.object:
-            data_train[column].value_counts().plot(kind='bar', axes=ax)
-        else:
-            data_train[column].hist(axes=ax)
-            plt.xticks(rotation='vertical')
-    plt.subplots_adjust(hspace=0.7, wspace=0.2)
 
-    print('\nCounts: \n{}'.format(data_train['Target'].value_counts()))
+    # fig = plt.figure(figsize=(25, 15))
+    # cols =5
+    # rows = np.ceil(float(data_train.shape[1]) / cols)
+    # for i, column in enumerate(data_train.columns):
+    #     ax = fig.add_subplot(rows, cols, i + 1)
+    #     ax.set_title(column)
+    #     if data_train.dtypes[column] == np.object:
+    #         data_train[column].value_counts().plot(kind='bar', axes=ax)
+    #     else:
+    #         data_train[column].hist(axes=ax)
+    #         plt.xticks(rotation='vertical')
+    # plt.subplots_adjust(hspace=0.7, wspace=0.2)
+
+    # print('\nCounts: \n{}'.format(data_train['Target'].value_counts()))
     # print(data_test.head())
+    data_test['Age'] = data_test['Age'].astype(np.int64)
+    data_test['fnlwgt'] = data_test['fnlwgt'].astype(np.int64)
+    data_test['Education_Num'] = data_test['Education_Num'].astype(np.int64)
+    data_test['Capital_Gain'] = data_test['Capital_Gain'].astype(np.int64)
+    data_test['Capital_Loss'] = data_test['Capital_Loss'].astype(np.int64)
+    data_test['Hours_per_week'] = data_test['Hours_per_week'].astype(np.int64)
+    print(data_test.dtypes)
+
+    categorical_columns_train = [c for c in data_train.columns if data_train[c].dtype.name == 'object']
+    numerical_columns_train = [c for c in data_train.columns if data_train[c].dtype.name != 'object']
+    categorical_columns_test = [c for c in data_test.columns if data_test[c].dtype.name == 'object']
+    numerical_columns_test = [c for c in data_test.columns if data_test[c].dtype.name != 'object']
+    print('Categirical columns train: {}'.format(categorical_columns_train))
+    print('Categorical columns test:  {}'.format(categorical_columns_test))
+    print('Numerical columns train: {}'.format(numerical_columns_train))
+    print('Numerical columns test   {}'.format(numerical_columns_test))
+    for c in categorical_columns_train:
+        data_train[c] = data_train[c].fillna(data_train[c].mode())
+    for c in categorical_columns_test:
+        data_test[c] = data_test[c].fillna(data_test[c].mode())
+    for c in numerical_columns_train:
+        data_train[c] = data_train[c].fillna(data_train[c].median())
+    for c in numerical_columns_test:
+        data_test[c] = data_test[c].fillna(data_test[c].median())
+    print()
+    data_train = pd.concat([data_train,
+                            pd.get_dummies(data_train['Workclass'], prefix='Workclass'),
+                            pd.get_dummies(data_train['Education'], prefix='Education'),
+                            pd.get_dummies(data_train['Martial_Status'], prefix='Martial_Status'),
+                            pd.get_dummies(data_train['Occupation'], prefix='Occupation'),
+                            pd.get_dummies(data_train['Relationship'], prefix='Relationship'),
+                            pd.get_dummies(data_train['Race'], prefix='Race'),
+                            pd.get_dummies(data_train['Sex'], prefix='Sex'),
+                            pd.get_dummies(data_train['Country'], prefix='Country')
+                            ], axis=1)
+    data_test = pd.concat([data_test,
+                           pd.get_dummies(data_test['Workclass'], prefix='Workclass'),
+                           pd.get_dummies(data_test['Education'], prefix='Education'),
+                           pd.get_dummies(data_test['Martial_Status'], prefix='Martial_Status'),
+                           pd.get_dummies(data_test['Occupation'], prefix='Occupation'),
+                           pd.get_dummies(data_test['Relationship'], prefix='Relationship'),
+                           pd.get_dummies(data_test['Race'], prefix='Race'),
+                           pd.get_dummies(data_test['Sex'], prefix='Sex'),
+                           pd.get_dummies(data_test['Country'], prefix='Country')
+                           ], axis=1)
+    data_train.drop(['Workclass', 'Education', 'Martial_Status', 'Occupation',
+                     'Relationship', 'Race', 'Sex', 'Country'],
+                    axis=1, inplace=True)
+    data_test.drop(['Workclass', 'Education', 'Martial_Status', 'Occupation',
+                    'Relationship', 'Race', 'Sex', 'Country'],
+                   axis=1, inplace=True)
+    print(data_test.describe(include='all').T)
     plt.show()
 
 
