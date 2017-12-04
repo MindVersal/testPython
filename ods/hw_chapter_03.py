@@ -206,15 +206,32 @@ def analise_adult_dadaframe():
     tree.fit(X_train, y_train)
     tree_predictions = tree.predict(X_test)
     print('Accuracy: {}'.format(accuracy_score(y_test, tree_predictions)))
-    tree_params = {'max_depth': range(2, 11)}
-    locally_best_tree = GridSearchCV(tree, tree_params, cv=5, n_jobs=1, verbose=True)
-    locally_best_tree.fit(X_train, y_train)
-    print('Best params GridSearchCV: {}'.format(locally_best_tree.best_params_))
-    print('Best cross validation score GridSearchCV: {}'.format(locally_best_tree.best_score_))
+    # tree_params = {'max_depth': range(2, 11)}
+    # locally_best_tree = GridSearchCV(tree, tree_params, cv=5, n_jobs=1, verbose=True)
+    # locally_best_tree.fit(X_train, y_train)
+    # print('Best params GridSearchCV: {}'.format(locally_best_tree.best_params_))
+    # print('Best cross validation score GridSearchCV: {}'.format(locally_best_tree.best_score_))
     tuned_tree = DecisionTreeClassifier(random_state=17, max_depth=9)
     tuned_tree.fit(X_train, y_train)
     tuned_tree_predictions = tuned_tree.predict(X_test)
     print('Accuracy tuned tree: {}'.format(accuracy_score(y_test, tuned_tree_predictions)))
+    rf = RandomForestClassifier(random_state=17, n_estimators=100)
+    rf.fit(X_train, y_train)
+    rf_predictions = rf.predict(X_test)
+    print('Accuracy RandomForestClassifier: {}'.format(accuracy_score(y_test, rf_predictions)))
+    # forest_params = {'max_depth': range(10, 21),
+    #                  'max_features': range(5, 105, 10)}
+    # locally_best_forest = GridSearchCV(rf, forest_params, n_jobs=4, verbose=True)
+    # locally_best_forest.fit(X_train, y_train)
+    # print('Best params: {}'.format(locally_best_forest.best_params_))
+    # print('Best score : {}'.format(locally_best_forest.best_score_))
+    # locally_best_forest_predictions = locally_best_forest.predict(X_test)
+    # print('Accuracy tuned RandomForestClassifier: {}'
+    #       .format(accuracy_score(y_test, locally_best_forest_predictions)))
+    tuned_rf = RandomForestClassifier(random_state=17, n_estimators=100, max_depth=14, max_features=45)
+    tuned_rf.fit(X_train, y_train)
+    tuned_rf_predictions = tuned_rf.predict(X_test)
+    print('Accuracy tuned RandomForestClassifier: {}'.format(accuracy_score(y_test, tuned_rf_predictions)))
     # plt.show()
 
 
