@@ -20,8 +20,16 @@ def testing_logres():
     print('Testing')
     data = pd.read_csv('../data/microchip_tests.txt', header=None, names=('test1', 'test2', 'released'))
     print(data.info())
-
-    # plt.show()
+    print(data.head())
+    X = data.ix[:, :2].values
+    y = data.ix[:, 2].values
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='green', label='Ready')
+    plt.scatter(X[y == 0, 0], X[y == 0, 1], c='red', label='Missing')
+    plt.xlabel('Test 1')
+    plt.ylabel('Test 2')
+    plt.title('2 tests microchips')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':
