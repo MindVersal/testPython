@@ -6,6 +6,9 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.model_selection import GridSearchCV
+from sklearn.datasets import load_files
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.svm import LinearSVC
 
 
 def before_main():
@@ -84,7 +87,46 @@ def testing_logres():
     plt.show()
 
 
+def analize_imdb_reviews():
+    reviews_train = load_files('../data/aclImdb/train/')
+    text_train, y_train = reviews_train.data, reviews_train.target
+    # print('Number of documents in training data: {}'.format(len(text_train)))
+    # print('Bincounts: {}'.format(np.bincount(y_train)))
+    reviews_test = load_files('../data/aclImdb/test/')
+    test_test, y_test = reviews_test.data, reviews_test.target
+    cv = CountVectorizer()
+    cv.fit(text_train)
+    print(len(cv.vocabulary_))
+    # print(cv.get_feature_names()[50000:50050])
+    X_train = cv.transform(text_train)
+    X_test = cv.transform(test_test)
+    logit = LogisticRegression(n_jobs=-1, random_state=17)
+    logit.fit(X_train, y_train)
+    print('Score train: {}, \n Score test: {}'.format(round(logit.score(X_train, y_train), 3),
+                                                      round(logit.score(X_test, y_test), 3)))
+    visualize_coefficients(logit, cv.get_feature_names())
+
+
+def visualize_coefficients(classifier, feature_names, n_top_features=25):
+    coef = classifier.coef_.ravel()
+    positive_coefficients = np.argsort(coef)[-n_top_features:]
+    negative_coefficients = np.argsort(coef)[:n_top_features]
+    interesting_coefficients = np.hstack([negative_coefficients, positive_coefficients])
+    plt.figure(figsize=(15, 5))
+    colors = ['red' if c < 0 else 'blue' for c in coef[interesting_coefficients]]
+    plt.bar(np.arange(2 * n_top_features), coef[interesting_coefficients], color=colors)
+    feature_names = np.array(feature_names)
+    plt.xticks(np.arange(1, 1 + 2 * n_top_features), feature_names[interesting_coefficients], rotation=60, ha='right')
+
+
+def plot_grid_score(grid, param_name):
+    plt.plot(grid.param_grid[param_name], grid.cv_results_['mean_train_score'], color='green', label='train')
+    plt.plot(grid.param_grid[param_name], grid.cv_results_['mean_test_score'], color='red', label='test')
+    plt.legend()
+
+
 if __name__ == '__main__':
     before_main()
-    testing_logres()
+    # testing_logres()
+    analize_imdb_reviews()
     after_main()
