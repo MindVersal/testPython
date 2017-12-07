@@ -9,7 +9,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.svm import LinearSVC
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.ensemble import RandomForestClassifier
 
 
@@ -143,8 +143,41 @@ def plot_grid_score(grid, param_name):
     plt.legend()
 
 
+def test_xor_problem():
+    rng = np.random.RandomState(0)
+    X = rng.randn(200, 2)
+    y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
+    plt.scatter(X[:, 0], X[:, 1], s=30, c=y, cmap=plt.cm.Paired)
+    print(y)
+    # plot_boundary(LogisticRegression(), X, y, 'Logistic Regression, XOR problem')
+    logit_pipe = Pipeline([('poly', PolynomialFeatures(degree=2)),
+                           ('logit', LogisticRegression())])
+    # plot_boundary(logit_pipe, X, y, 'Logistic Regression + quadratic features. XOR problem')
+    plt.show()
+
+
+def plot_boundary(clf, X, y, plot_title):
+    xx, yy = np.meshgrid(np.linspace(-3, 3, 50)), np.linspace(-3, 3, 50)
+    clf.fit(X, y)
+    Z = clf.predict_proba(np.vstack((xx.ravel(), yy.ravel())).T)[:, 1]
+    Z = Z.reshape(xx.shape)
+    image = plt.imshow(Z, interpolation='nearest',
+                       extent=(xx.min(), xx.max(), yy.min(), yy.max()),
+                       aspect='auto', origin='lover', cmap=plt.cm.PuOr_r)
+    contours = plt.contour(xx, yy, Z, levels=[0], linewidths=2, linetypes='--')
+    plt.scatter(X[:, 0], X[:, 1], s=30, c=y, cmap=plt.cm.Paired)
+    plt.xticks(())
+    plt.yticks(())
+    plt.xlabel(r'$<!-- math>$inline$x_1$inline$</math -->$')
+    plt.ylabel(r'$<!-- math>$inline$x_2$inline$</math -->$')
+    plt.axis([-3, 3, -3, 3])
+    plt.colorbar(image)
+    plt.title(plot_title, fontsize=12)
+
+
 if __name__ == '__main__':
     before_main()
     # testing_logres()
-    analize_imdb_reviews()
+    # analize_imdb_reviews()
+    test_xor_problem()
     after_main()
