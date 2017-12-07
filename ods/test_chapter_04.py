@@ -148,16 +148,16 @@ def test_xor_problem():
     X = rng.randn(200, 2)
     y = np.logical_xor(X[:, 0] > 0, X[:, 1] > 0)
     plt.scatter(X[:, 0], X[:, 1], s=30, c=y, cmap=plt.cm.Paired)
-    print(y)
-    # plot_boundary(LogisticRegression(), X, y, 'Logistic Regression, XOR problem')
+    plot_boundary(LogisticRegression(), X, y, 'Logistic Regression, XOR problem')
     logit_pipe = Pipeline([('poly', PolynomialFeatures(degree=2)),
                            ('logit', LogisticRegression())])
-    # plot_boundary(logit_pipe, X, y, 'Logistic Regression + quadratic features. XOR problem')
+    plt.show()
+    plot_boundary(logit_pipe, X, y, 'Logistic Regression + quadratic features. XOR problem')
     plt.show()
 
 
 def plot_boundary(clf, X, y, plot_title):
-    xx, yy = np.meshgrid(np.linspace(-3, 3, 50)), np.linspace(-3, 3, 50)
+    xx, yy = np.meshgrid(np.linspace(-3, 3, 50), np.linspace(-3, 3, 50))
     clf.fit(X, y)
     Z = clf.predict_proba(np.vstack((xx.ravel(), yy.ravel())).T)[:, 1]
     Z = Z.reshape(xx.shape)
@@ -168,8 +168,8 @@ def plot_boundary(clf, X, y, plot_title):
     plt.scatter(X[:, 0], X[:, 1], s=30, c=y, cmap=plt.cm.Paired)
     plt.xticks(())
     plt.yticks(())
-    plt.xlabel(r'$<!-- math>$inline$x_1$inline$</math -->$')
-    plt.ylabel(r'$<!-- math>$inline$x_2$inline$</math -->$')
+    plt.xlabel('X1')
+    plt.ylabel('X2')
     plt.axis([-3, 3, -3, 3])
     plt.colorbar(image)
     plt.title(plot_title, fontsize=12)
