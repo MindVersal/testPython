@@ -9,6 +9,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.svm import LinearSVC
+from sklearn.pipeline import make_pipeline
+from sklearn.ensemble import RandomForestClassifier
 
 
 def before_main():
@@ -93,18 +95,34 @@ def analize_imdb_reviews():
     # print('Number of documents in training data: {}'.format(len(text_train)))
     # print('Bincounts: {}'.format(np.bincount(y_train)))
     reviews_test = load_files('../data/aclImdb/test/')
-    test_test, y_test = reviews_test.data, reviews_test.target
+    text_test, y_test = reviews_test.data, reviews_test.target
     cv = CountVectorizer()
     cv.fit(text_train)
     print(len(cv.vocabulary_))
     # print(cv.get_feature_names()[50000:50050])
     X_train = cv.transform(text_train)
-    X_test = cv.transform(test_test)
+    X_test = cv.transform(text_test)
     logit = LogisticRegression(n_jobs=-1, random_state=17)
     logit.fit(X_train, y_train)
-    print('Score train: {}, \n Score test: {}'.format(round(logit.score(X_train, y_train), 3),
+    print('Score train: {}, \nScore test : {}'.format(round(logit.score(X_train, y_train), 3),
                                                       round(logit.score(X_test, y_test), 3)))
-    visualize_coefficients(logit, cv.get_feature_names())
+    # visualize_coefficients(logit, cv.get_feature_names())
+    text_pipe_logit = make_pipeline(CountVectorizer(),
+                                    LogisticRegression(n_jobs=-1, random_state=17))
+    text_pipe_logit.fit(text_train, y_train)
+    print('Score with pipeline LogisticRegression on test: {}'.format(text_pipe_logit.score(text_test, y_test)))
+    param_grid_logit = {'logisticregression__C': np.logspace(-5, 0, 6)}
+    grid_logit = GridSearchCV(text_pipe_logit, param_grid_logit, cv=3, n_jobs=-1)
+    grid_logit.fit(text_train, y_train)
+
+    print('From grid_logit: \nbest params: {} \nbest score: {}'.format(grid_logit.best_params_,
+                                                                       grid_logit.best_score_))
+    plot_grid_score(grid_logit, 'logisticregression__C')
+    print('Score with grid LogisticRegression on test: {}'.format(grid_logit.score(text_test, y_test)))
+    forest = RandomForestClassifier(n_estimators=200, n_jobs=-1, random_state=17)
+    forest.fit(X_train, y_train)
+    print('Score ForestRandomClassifier: {}'.format(round(forest.score(X_test, y_test)), 3))
+    plt.show()
 
 
 def visualize_coefficients(classifier, feature_names, n_top_features=25):
