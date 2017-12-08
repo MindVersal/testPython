@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, SGDClassifier
-from sklearn.model_selection import cross_val_score, StratifiedKFold, GridSearchCV, validation_curve
+from sklearn.model_selection import cross_val_score, StratifiedKFold, GridSearchCV, validation_curve, learning_curve
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.svm import LinearSVC
@@ -186,6 +186,37 @@ def test_telecom_data():
                            ('poly', PolynomialFeatures(degree=2)),
                            ('sgd_logit', sgd_logit)])
     val_train, val_test = validation_curve(logit_pipe, X, y, 'sgd_logit__alpha', alphas, cv=5, scoring='roc_auc')
+    plot_with_err(alphas, val_train, label='training scores')
+    plot_with_err(alphas, val_test, label='validation scores')
+    plt.xlabel('Alpha')
+    plt.ylabel('ROC AUC')
+    plt.legend()
+    plt.show()
+    plot_learning_curve(degree=2, alpha=10, X=X, y=y)
+    plt.show()
+    plot_learning_curve(degree=2, alpha=0.05, X=X, y=y)
+    plt.show()
+    plot_learning_curve(degree=2, alpha=1e-4, X=X, y=y)
+    plt.show()
+
+
+def plot_with_err(x, data, **kwargs):
+    mu, std = data.mean(1), data.std(1)
+    lines = plt.plot(x, mu, '-', **kwargs)
+    plt.fill_between(x, mu - std, mu + std, edgecolor='none', facecolor=lines[0].get_color(), alpha=0.2)
+
+
+def plot_learning_curve(degree=2, alpha=0.01, X=None, y=None):
+    train_sizes = np.linspace(0.05, 1, 20)
+    logit_pipe = Pipeline([('scaler', StandardScaler()),
+                           ('poly', PolynomialFeatures(degree=degree)),
+                           ('sgd_logit', SGDClassifier(n_jobs=-1, random_state=17, alpha=alpha))])
+    N_train, val_train, val_test = learning_curve(logit_pipe, X, y, train_sizes=train_sizes, cv=5, scoring='roc_auc')
+    plot_with_err(N_train, val_train, label='training scores')
+    plot_with_err(N_train, val_test, label='validation score')
+    plt.xlabel('Training Set Size')
+    plt.ylabel('AUC')
+    plt.legend()
 
 
 if __name__ == '__main__':
