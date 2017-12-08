@@ -2,10 +2,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
-from sklearn.model_selection import cross_val_score, StratifiedKFold
-from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+from sklearn.linear_model import LogisticRegression, LogisticRegressionCV, SGDClassifier
+from sklearn.model_selection import cross_val_score, StratifiedKFold, GridSearchCV, validation_curve
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.svm import LinearSVC
@@ -175,9 +174,24 @@ def plot_boundary(clf, X, y, plot_title):
     plt.title(plot_title, fontsize=12)
 
 
+def test_telecom_data():
+    data = pd.read_csv('../data/telecom_churn.csv').drop('State', axis=1)
+    data['International plan'] = data['International plan'].map({'Yes': 1, 'No': 0})
+    data['Voice mail plan'] = data['Voice mail plan'].map({'Yes': 1, 'No': 0})
+    y = data['Churn'].astype('int').values
+    X = data.drop('Churn', axis=1).values
+    alphas = np.logspace(-2, 0, 20)
+    sgd_logit = SGDClassifier(loss='log', n_jobs=-1, random_state=17)
+    logit_pipe = Pipeline([('scaler', StandardScaler()),
+                           ('poly', PolynomialFeatures(degree=2)),
+                           ('sgd_logit', sgd_logit)])
+    val_train, val_test = validation_curve(logit_pipe, X, y, 'sgd_logit__alpha', alphas, cv=5, scoring='roc_auc')
+
+
 if __name__ == '__main__':
     before_main()
     # testing_logres()
     # analize_imdb_reviews()
-    test_xor_problem()
+    # test_xor_problem()
+    test_telecom_data()
     after_main()
